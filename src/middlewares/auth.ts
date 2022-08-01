@@ -15,7 +15,9 @@ class AuthMiddleware {
 
     if (a.loggedIn(config.AUTH_URL)) {
       next();
+      return;
     }
+
     res.redirect('/login');
   }
 }
