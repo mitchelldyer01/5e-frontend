@@ -19,7 +19,9 @@ class Index {
       res.send('Index');
     });
     this.router.get('/login', (req, res) => {
-      res.send('Login');
+      res.render('login', {
+        subject: 'Login test',
+      });
     });
     this.router.get('/register', (req, res) => {
       res.send('Register');

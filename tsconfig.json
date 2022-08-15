@@ -5,10 +5,11 @@
     "outDir": "build",
     "strict": true,
     "esModuleInterop": true,
+    "lib": ["DOM"]
   },
   "compileOnSave": true,
   "include": [
-    "src/**/*.ts",
-    "test/**/*.ts"
+    "src/**/*",
+    "test/**/*",
   ]
 }

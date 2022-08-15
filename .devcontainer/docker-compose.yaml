@@ -1,0 +1,53 @@
+---
+
+version: '3.7'
+
+services:
+  db:
+    container_name: postgres
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
+    networks:
+      - local
+
+  backend:
+    container_name: backend
+    build: https://github.com/mitchelldyer01/5e-backend.git
+    environment:
+      DB_URL: postgres://postgres:postgres@postgres:5432/postgres
+      AUTH_KEY: 0123456789
+    ports:
+      - 8080:8080
+    networks:
+      - local
+    depends_on:
+      - frontend
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        VARIANT: 18-bullseye
+    environment:
+      AUTH_URL: http://backend:8080
+      PORT: 8081
+    ports:
+      - 8081:8081
+    networks:
+      - local
+    volumes:
+      - ..:/workspaces/5e-frontend
+    user: node
+    command: sleep infinity
+    depends_on:
+      - db
+
+networks:
+  local:
