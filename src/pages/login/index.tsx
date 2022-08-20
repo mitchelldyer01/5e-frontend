@@ -12,8 +12,8 @@ const Login: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className='container'>
-          <LoginForm />
+        <div className='container flex flex-col justify-center items-center'>
+          <LoginForm /> 
         </div>
       </main>
     </div>
