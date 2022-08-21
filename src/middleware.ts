@@ -17,6 +17,7 @@ export function middleware(request: NextRequest) {
   // Check auth
   switch (path) {
     case '/login':
+    case '/register':
       return NextResponse.next();
     default:
       const url = request.nextUrl.clone();

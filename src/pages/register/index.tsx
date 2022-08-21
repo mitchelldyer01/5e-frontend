@@ -1,23 +1,23 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import React from 'react'
-import LoginForm from '../../components/login-form'
+import RegisterForm from '../../components/register-form'
 
-const Login: NextPage = () => {
+const Register: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>Login</title>
+        <title>Register</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
         <div>
-          <LoginForm /> 
+          <RegisterForm /> 
         </div>
       </main>
     </div>
   )
 }
 
-export default Login
+export default Register
