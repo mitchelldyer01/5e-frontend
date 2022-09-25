@@ -10,7 +10,7 @@ interface Config {
 
 const getConfig = (): ENV => {
   return {
-    AUTH_URL: process.env.AUTH_URL ?? 'http://localhost:8080',
+    AUTH_URL: process.env.AUTH_URL ?? 'http://127.0.0.1:8080',
     PORT: process.env.PORT ?? '8081',
   };
 };
@@ -25,7 +25,6 @@ const getSanitizedConfig = (config: ENV): Config => {
 };
 
 const config = getConfig();
-
 const sanitizedConfig = getSanitizedConfig(config);
 
 export default sanitizedConfig;
