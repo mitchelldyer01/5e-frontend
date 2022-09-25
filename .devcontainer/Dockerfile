@@ -6,7 +6,10 @@ RUN npm install @mui/joy \
                 @emotion/styled \
                 next \
                 react \
-                react-dom
+                react-dom \
+                axios \
+                @reduxjs/toolkit \
+                react-redux
 RUN npm install  --save-dev @types/node \
                             @types/react \
                             @types/react-dom \

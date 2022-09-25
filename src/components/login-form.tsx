@@ -4,29 +4,50 @@ import TextField from '@mui/joy/TextField';
 import Button from '@mui/joy/Button';
 import Link from '@mui/joy/Link';
 import React from 'react';
-import { loadGetInitialProps } from 'next/dist/shared/lib/utils';
+import { Authenticator } from '../services/authenticator';
+import { IsUser } from '../interfaces/user';
+import Router from 'next/router';
 
-interface LoginState {
+interface State {
     email: string;
     password: string;
 }
 
-interface LoginProps {}
+interface Props {}
 
-class LoginForm extends React.Component<LoginProps, LoginState> {
-    constructor(props: LoginProps) {
+class LoginForm extends React.Component<Props, State> {
+    constructor(props: Props) {
         super(props);
-        this.changeEmail = this.changeEmail.bind(this);
-        this.changePassword = this.changePassword.bind(this);
-        this.state = {email: '', password: ''};
+
+        this.state = {
+            email: '',
+            password: '',
+        };
+
+        this.onChange = this.onChange.bind(this);
+        this.submit = this.submit.bind(this);
     }
 
-    changeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({email: e.target.value});
+    submit() {
+        const authenticator = new Authenticator();
+
+        authenticator.login(this.state.email, this.state.password)
+            .then(response => {
+                if (response.status === 200) {
+                    console.log(response);
+                    console.log(1);
+                    Router.push('/');
+                } else {
+                    console.log(2);
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
-    changePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({password: e.target.value});
+    onChange(e: React.ChangeEvent<HTMLInputElement>) {
+        this.setState({...this.state, [e.target.name]: e.target.value});
     }
 
     render() {
@@ -56,7 +77,7 @@ class LoginForm extends React.Component<LoginProps, LoginState> {
                     type="email"
                     placeholder="johndoe@email.com"
                     label="Email"
-                    onChange={this.changeEmail}
+                    onChange={this.onChange}
                     value={this.state.email}
                 />
                 <TextField 
@@ -64,11 +85,13 @@ class LoginForm extends React.Component<LoginProps, LoginState> {
                     type="password"
                     placeholder="password"
                     label="Password"
-                    onChange={this.changePassword}
+                    onChange={this.onChange}
                     value={this.state.password}
                 />
                 <Button
+                    type="submit"
                     variant="outlined"
+                    onClick={this.submit}
                     sx={{
                         mt: 1,
                     }}

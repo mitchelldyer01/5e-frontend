@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { Authenticator } from './services/authenticator';
 
 export function middleware(request: NextRequest) {
   const PUBLIC_FILE = /\.(.*)$/;
@@ -15,13 +16,30 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
 
   // Check auth
-  switch (path) {
-    case '/login':
-    case '/register':
-      return NextResponse.next();
-    default:
-      const url = request.nextUrl.clone();
-      url.pathname = '/login';
-      return NextResponse.redirect(url);
-  }  
+  const authenticator = new Authenticator();
+  const redirectUrl = request.nextUrl.clone();
+
+  let token = request.cookies.get('token');
+
+  authenticator.fetchLoggedIn(token)
+    .then(response => {
+      switch (path) {
+        case '/login':
+        case '/register':
+          if (response.status === 200) {
+            redirectUrl.pathname = '/';
+            return NextResponse.redirect(redirectUrl);
+          }
+          return NextResponse.next();
+        default:
+          if (response.status === 200) {
+            return NextResponse.next();
+          }
+          redirectUrl.pathname = '/login';
+          return NextResponse.redirect(redirectUrl);
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    });  
 }

@@ -1,8 +1,9 @@
-import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import React from 'react'
 import { CssVarsProvider, useColorScheme } from '@mui/joy/styles';
 import Button from '@mui/joy/Button';
+import { Provider } from 'react-redux';
+import { store } from '../store/store';
 
 // Toggle for dark & light mode
 const ModeToggle = () => {
@@ -35,9 +36,11 @@ const ModeToggle = () => {
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <CssVarsProvider>
-      <ModeToggle />
-      <Component {...pageProps} />
-    </CssVarsProvider>
+    <Provider store={store}>
+      <CssVarsProvider>
+        <ModeToggle />
+        <Component {...pageProps} />
+      </CssVarsProvider>
+    </Provider>
   );
 }

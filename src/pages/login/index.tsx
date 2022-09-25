@@ -3,7 +3,7 @@ import Head from 'next/head'
 import React from 'react'
 import LoginForm from '../../components/login-form'
 
-const Login: NextPage = () => {
+const LoginPage: NextPage = () => {
   return (
     <div>
       <Head>
@@ -20,4 +20,4 @@ const Login: NextPage = () => {
   )
 }
 
-export default Login
+export default LoginPage
